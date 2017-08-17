@@ -26,4 +26,4 @@ and visualization in BI tools.
 Open the shell window and SSH to the HDInsight head node
 `$ ssh <sshusername>@<clustername>-ssh.azurehdinsight.net`
 
-![SSH log-in](/images/Img1.jpg?raw=true "SSH log-in")
+![SSH log-in](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img1.jpg?raw=true "SSH log-in")
