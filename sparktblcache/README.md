@@ -5,9 +5,7 @@ author: skepticatgit
 tags: Azure, Spark, HDInsight, PowerBI
 date_published: 2017-07-06
 ---
-This tutorial will guide you through connecting to Thrift Server via beelineand
-and caching tables in Spark for subsequent exploration 
-and visualization in BI tools.
+This tutorial will guide you through connecting to HDInsight Thrift Server via beeline client and caching tables in Spark for subsequent exploration and visualization in BI tools.
 
 ## Objectives
 If you worked through this [HDInsight Spark tutorial](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-apache-spark-use-bi-tools), you would learned that the "hvactemptable" table is only available in the context and current PySpark session. External tools won't be able to see it. We will need to execute "cache table" statement which we will accomplish with Beeline client and Thrift Server.
@@ -22,6 +20,12 @@ If you worked through this [HDInsight Spark tutorial](https://docs.microsoft.com
 1. Azure HDInsight Spark cluster. Follow this [link](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-apache-spark-jupyter-spark-sql) to create HDInsight Spark cluster.
 1. Linux shell or command line interface. I am using [Ubuntu Bash](https://msdn.microsoft.com/en-us/commandline/wsl/about) on Windows.
 1. Desktop BI tool like Tableau or [Power BI desktop](https://powerbi.microsoft.com/en-us/downloads/).
+
+## Costs
+
+This tutorial uses billable components of Azure Cloud. Use the [Azure Pricing
+Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) to estimate the costs for your usage.
+
 
 ## Step by step guide
 
