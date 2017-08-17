@@ -33,3 +33,80 @@ date_published: 2017-02-28
 1. [Docker hub](https://hub.docker.com/) account.
 1. HTML editor. I prefer [Notepad++](https://notepad-plus-plus.org/).
 1. HTML and CSS free to use sample. I liked [templated.co](https://templated.co/) and [purecss.io](https://purecss.io/).
+
+## Costs
+
+This tutorial uses billable components of Azure Cloud. Use the [Azure Pricing
+Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) to estimate the costs for your usage.
+
+
+## Step by step guide
+
+1. Install Docker
+
+SSH to your VM using putty. Please follow the official Docker installation [instructions](https://docs.docker.com/engine/installation/linux/ubuntu/). Once done, check that it installed correctly by executing the following code:
+```
+sudo docker version
+```
+You should see the status returned similar to the below
+![Docker version](https://github.com/skepticatgit/tutorials/blob/master/linuxwebapp/images/01.SSH-dockerver.png?raw=true "Check Docker")
+
+And finally let's check that your local instance can communicate with Docker hub by executing the following code:
+```
+sudo docker run hello-world
+```
+2. Download a sample HTML and CSS
+
+For simplicity sake I grabbed a "Responsive Side Menu" layout and css from purecss.io. Once downloaded, extract the "pure-layout-side-menu.zip" archive into "pure-layout-side-menu" folder. You should have:
+```
+css folder
+js folder
+index.html
+LICENSE.md
+README.md
+```
+![HTML and CSS](https://github.com/skepticatgit/tutorials/blob/master/linuxwebapp/images/02.HTMLandCSS.png?raw=true "CSS")
+
+3. Author HTML and CSS to your heart's delight
+
+From the screen below you can see my Notepad++ window. Make sure to change links to relative folder location from "\" to "/" if you are moving from Windows to Linux. Click on the image to enlarge.
+![HTML source](https://github.com/skepticatgit/tutorials/blob/master/linuxwebapp/images/03.Notepad.png?raw=true "HTML Source")
+
+4. Zip your site files and folders and transfer to the VM via SCP
+
+I used 7zip which created "site.zip" of my "site" folder and its three subfolders: "css", "js" and "img" weighing 128KB. Since I am authenticating with certificate to my VM, I will need to use the [generated private key](https://verrytechnical.com/using-pscp-with-ssh-key-pair-authentication-to-transfer-files/) located on my PC. For simplicity sake let's put both the certificate and site.zip to C:\. Now let's fire up Putty SCP and transfer that archive by executing this code.
+```
+C:\pscp -i "C:\LinuxVM.ppk" C:\site.zip demouser@bes.centralus.cloudapp.azure.com:
+```
+![SCP](https://github.com/skepticatgit/tutorials/blob/master/linuxwebapp/images/04.PSCP.png?raw=true "SCP copy")
+5. Time to create the dockerfile
+
+There is a good explanation of Docker construct including dockerfile at the [Digitalocean.com](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-getting-started). Once connected to your VM, let's extract the archive into "/home/site" folder on the VM.
+```
+unzip site.zip
+```
+![Unzip](https://github.com/skepticatgit/tutorials/blob/master/linuxwebapp/images/05.Unzip.png?raw=true "Unzip HTML and CSS")
+5. Time to create the dockerfile
+
+To create a simple dockerfile
+```
+touch dockerfile
+nano dockerfile
+```
+Type the following in the nano window
+```
+FROM nginx:alpine 
+COPY site /usr/share/nginx/html 
+```
+Since we are not starting from scratch, we will use [nginx:alpine](https://hub.docker.com/_/nginx/) Docker image that has nginx installed and config file properly set-up. **"Ctrl O"** to write out the dockerfile and **"Ctrl X"** to close it. Let's briefly look at the code in our dockerfile:
+
+- `FROM nginx:alpine` is pulling the pre-built nginx webserver image
+- `COPY site /usr/share/nginx/html/` This is where the magic happens: this line instructs builder to copy VM host "/home/site" folder content into the Docker image
+
+6. Let's build the image
+
+Make sure you don't skip trailing space and period at the end. "site" is the name of our image, and ":v1" version tag.
+```
+sudo docker build -t site:v1 .
+```
+![Build image](https://github.com/skepticatgit/tutorials/blob/master/linuxwebapp/images/06.Build.png?raw=true "Build image")
