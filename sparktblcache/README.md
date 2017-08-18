@@ -28,75 +28,55 @@ Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) to estimate t
 
 ## Step by step guide
 
-1. Open the shell window and SSH to the HDInsight head node
+1. Open the shell window and SSH to the HDInsight head node. [Img. 1](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img1.jpg?raw=true) [Img. 2](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img2.jpg?raw=true)
 ```
 ssh <sshusername>@<clustername>-ssh.azurehdinsight.net
 ```
-![SSH log-in](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img1.jpg?raw=true "SSH log-in")
 
-![SSH log-in](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img2.jpg?raw=true "SSH log-in")
-
-2. Launch beeline client
+2. Launch beeline client. [Img. 3](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img3.jpg?raw=true)
 ```    
 beeline
 ```	
-![Beeline](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img3.jpg?raw=true "Beeline log-in")
 
-3. Connect to the Spark Thrift Server via JDBC driver by entering the following string and providing account credentials for the admin
+3. Connect to the Spark Thrift Server via JDBC driver by entering the following string and providing account credentials for the admin. [Img. 4](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img4.jpg?raw=true)
 ```
 !connect 'jdbc:hive2://<clustername>.azurehdinsight.net:443/default;ssl=true;transportMode=http;httpPath=/sparkhive2'
 ```	
-![Connect](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img4.jpg?raw=true "Beeline log-in")
 
 HDInsight comes pre-loaded with a sample table called "hivesampletable" sitting on WASB storage.
 
-4. List tables
+4. List tables. [Img. 5](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img5.jpg?raw=true)
 ```
 show tables;
 ```	
-![List Tables](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img5.jpg?raw=true "List tables")
 
-5. Let's check the time it will take to count number of all rows in the table while it is uncached for the reference.
+5. Let's check the time it will take to count number of all rows in the table while it is uncached for the reference. [Img. 6](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img6.jpg?raw=true)
 ```
 select count(*) from hivesampletable;
 ```
-![Uncached performance](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img6.jpg?raw=true "Uncached scan")
-
 Operation accomplished in 16 seconds.
 
-6. Cache the sample table in memory and then execute a one row count. You need to do this to commit the change as by default Spark performs "lazy execution".
+6. Cache the sample table in memory and then execute a one row count. You need to do this to commit the change as by default Spark performs "lazy execution". [Img. 7](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img7.jpg?raw=true)	
 ```
 $cache table hivesampletable;
 $select count(1) from hivesampletable;	
 ```	
-![Execute caching](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img7.jpg?raw=true "Execute caching")	
 
-7. Now let's compare the same row count with in-memory cached table
+7. Now let's compare the same row count with in-memory cached table. [Img. 8](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img8.jpg?raw=true)
 ```
 $select count(*) from hivesampletable;
 ```	
-![Cached performance](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img8.jpg?raw=true "Cached scan")
 
 Not bad: under 0.5 second! You can disconnect beeline client by executing
 ```
 !q
 ```
-8. Launch Power BI desktop and select **Get Data** -> **More**
+8. Launch Power BI desktop and select **Get Data** -> **More**. [Img. 9](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img9.jpg?raw=true)
 
-![Launch PBI](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img9.jpg?raw=true "launch PBI")
+9. Select **Azure** and **Azure HDInsight Spark (Beta)**. [Img. 10](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img10.jpg?raw=true)
 
-9. Select "Azure" and "Azure HDInsight Spark (Beta)"
+10. Specify the Spark cluster URL as **<sparkname>.azurehdinsight.net**. I picked **DirectQuery** as it allows to leverage the underlying Spark cluster processing power and not bringing all data into Power BI model. You can read more about Direct Query [here](https://powerbi.microsoft.com/en-us/documentation/powerbi-desktop-use-directquery/). [Img. 11](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img11.jpg?raw=true)
 
-![PBI connector](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img10.jpg?raw=true "PBI connector")
+11. Let's provide the same admin credentials we used for connecting to the head node above. [Img. 12](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img12.jpg?raw=true)
 
-10. Specify the Spark cluster URL as **<sparkname>.azurehdinsight.net**. I picked **DirectQuery** as it allows to leverage the underlying Spark cluster processing power and not bringing all data into Power BI model. You can read more about Direct Query [here](https://powerbi.microsoft.com/en-us/documentation/powerbi-desktop-use-directquery/).
-
-![PBI connector - Spark URL](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img11.jpg?raw=true "PBI connector - Spark URL")
-
-11. Let's provide the same admin credentials we used for connecting to the head node above
-
-![PBI connector - Spark credentials](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img12.jpg?raw=true "PBI connector - Spark credentials")
-
-12. Once connected you should be able to see the cluster and hivesampletable
-
-![PBI editor](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img13.jpg?raw=true "PBI editor")
+12. Once connected you should be able to see the cluster and hivesampletable. [Img. 13](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img13.jpg?raw=true)
