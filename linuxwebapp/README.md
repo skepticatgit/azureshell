@@ -141,3 +141,25 @@ You might want to get more background on Azure Web Apps by reading the following
 Log in with your account to [Azure portal](https://portal.azure.com/). Follow [these steps](https://docs.microsoft.com/en-us/azure/app-service-web/app-service-linux-how-to-create-a-web-app) and start provisioning the Web App. I picked Basic tier, which is not allowing auto-scaling and some other features of the Standard app tier. I will keep an eye on the logs and will step up to a bigger tier if necessary. Once you are at the Docker [container menu](https://docs.microsoft.com/en-us/azure/app-service-web/app-service-linux-using-custom-docker-image#how-to-use-a-custom-docker-image-from-docker-hub), specify "skepticatdh" which is my user ID (replace with yours) on Docker hub and "site:v1" (replace with yours) which is the name of the Docker image we created. Another setting I suggest to enable is ALWAYS ON. [Img. 12](https://github.com/skepticatgit/tutorials/blob/master/linuxwebapp/images/11.Deploy.png?raw=true)
 
 If you create another docker image with the updated content, simply specify the new name:version and then restart the web app. [Img. 13](https://github.com/skepticatgit/tutorials/blob/master/linuxwebapp/images/12.Update.png?raw=true), [Img. 14](https://github.com/skepticatgit/tutorials/blob/master/linuxwebapp/images/13.Restart.png?raw=true)
+
+## MIT License
+
+Copyright (c) [2017] [Andrei Fateev]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
