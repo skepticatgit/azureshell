@@ -35,11 +35,11 @@ Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) to estimate t
 ## Step by step guide
 
 ### Create two bash scripts
-- [hdicreate.sh] that will log-in into our account as a service principle and provision the cluster
-- [hdidelete.sh] that will log-in into our account as a service principle and delete the cluster
+- [hdicreate.sh](https://github.com/skepticatgit/tutorials/blob/master/hadoopondemand/scripts/hdicreate.sh?raw=true) that will log-in into our account as a service principle and provision the cluster
+- [hdidelete.sh](https://github.com/skepticatgit/tutorials/blob/master/hadoopondemand/scripts/hdidelete.sh?raw=true) that will log-in into our account as a service principle and delete the cluster
 - **Optional**: provision a Linux VM or Linux serverless environment to execute cron with the scripts above
 
-hdicreate.sh
+**hdicreate.sh**
 ```
 #!/bin/bash
 # A simple Azure CLI
@@ -80,7 +80,7 @@ azure logout $sp
 printf "Done. Goodbye...\n "
 ```
 
-hdidelete.sh
+**hdidelete.sh**
 ```
 #!/bin/bash
 # A simple Azure CLI
@@ -105,7 +105,7 @@ printf "Done. Goodbye...\n "
 A quick script breakdown
 
 1. Don’t forget to add “&” if you want execution in the background. This will take about 12 minutes.
-1. Script creates a two head node and two worker node [Spark cluster](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-apache-spark-overview#next-steps)
+2. Script creates a two head node and two worker node [Spark cluster](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-apache-spark-overview#next-steps)
 - This is a “frugal” Spark cluster as with 4-core/14 GB RAM [per node](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes-general)
 - Spark Core. Includes Spark Core, Spark SQL, Spark streaming APIs, GraphX, and MLlib.
 - Ambari dashboard
@@ -114,13 +114,13 @@ A quick script breakdown
 - Livy
 - Jupyter notebook
 - Zeppelin notebook
-1. The data will be committed a-sync and persisted on the blob (object storage). You can maintain inputs, outputs, Spark SQL and UDFs here and they will survive cluster deletions and scale-up / scale-down
-1. (Optionally) You can create and persist meta store on the managed SQL or MySQL Azure instance
+3. The data will be committed a-sync and persisted on the blob (object storage). You can maintain inputs, outputs, Spark SQL and UDFs here and they will survive cluster deletions and scale-up / scale-down
+4. (Optionally) You can create and persist meta store on the managed SQL or MySQL Azure instance
 
 ### Usage
 From command line interface (like git bash) you'd execute `bash C:/hdicreate.sh` or `bash C:/hdidelete.sh` accordingly, assuming you have these files on C:\ of Windows machine.
 
-For resizing of the clusters horizontally, adding or deleting data nodes, you'd create script to execute the following:
+For resizing of the clusters horizontally, adding or deleting data nodes, you'd [create script](https://github.com/skepticatgit/tutorials/blob/master/hadoopondemand/scripts/hdiresize.sh?raw=true) to execute the following:
 ```
 azure hdinsight cluster resize $sparkname 1 --resource-group $rg #this scales cluster down to 1 data node
 ```
