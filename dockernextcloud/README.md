@@ -9,7 +9,7 @@ date_published: 2017-09-08
 
 1. Provision Ubuntu VM on Azure
 1. Set-up Azure DNS zone
-1. Register custom domain name with Godaddy.compose
+1. Register custom domain name with Godaddy.com
 1. Deploy nextcloud with docker containers, redis cache, MariaDB and auto renewing Letsencrypt SSL certificates
 
 ## Credit
