@@ -11,6 +11,7 @@ date_published: 2017-09-08
 1. Set-up Azure DNS zone
 1. Register custom domain name with Godaddy.com
 1. Deploy nextcloud with docker containers, redis cache, MariaDB and auto renewing Letsencrypt SSL certificates
+1. Enable data, contacts and calendat sync with iOS app
 
 ## Credit
 
@@ -35,17 +36,17 @@ Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) to estimate t
 ## Architecture components
 
 1. Domain name hosting at [Godaddy.com](https://www.godaddy.com)
-1. Ubuntu VM on Azure
-1. DNS Zone on Azure
-1. Letsencrypt certificate authority
-1. Backup vault for Azure VM
-1. App containers orchestrated via docker-compose.yml
-- Nginx reverse proxy
-- Nextcloud FPM server
-- Letsencrypt
-- Redis cache
-- MariaDB
-- Collabora
+1. Ubuntu [VM on Azure](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/Canonical.UbuntuServer?tab=PlansAndPrice)
+1. [DNS Zone](https://docs.microsoft.com/en-us/azure/dns/dns-overview) on Azure
+1. [Letsencrypt](https://letsencrypt.org/) certificate authority
+1. [Backup vault](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/tutorial-backup-vms) for Azure VM
+1. App containers orchestrated via [docker-compose.yml](https://docs.docker.com/compose/)
+- [Nginx reverse proxy](https://github.com/jwilder/nginx-proxy) by jwilder
+- [Nextcloud FPM server](https://github.com/nextcloud/docker/tree/master/12.0/fpm)
+- [Letsencrypt](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion) by JrC's
+- [Redis](https://hub.docker.com/_/redis/) cache
+- [MariaDB](https://hub.docker.com/_/mariadb/)
+- [Collabora](https://hub.docker.com/r/collabora/code/)
 
 ## Step by step guide
 ### Ubuntu VM set-up
