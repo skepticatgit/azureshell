@@ -11,7 +11,7 @@ date_published: 2017-09-08
 1. Set-up Azure DNS zone
 1. Register custom domain name with Godaddy.com
 1. Deploy nextcloud with docker containers, redis cache, MariaDB and auto renewing Letsencrypt SSL certificates
-1. Enable data, contacts and calendat sync with iOS app
+1. Enable data, contacts and calendar sync with iOS app
 
 ## Credit
 
@@ -19,6 +19,7 @@ date_published: 2017-09-08
 
 ## Solution Benefits
 
+1. Privacy: This could be consider de-googlification of your storage, contacts and calendar sync
 1. The solution is scalable as it is based on 7 independent containers
 1. Highly portable
 1. Components are updated independantly
@@ -52,11 +53,49 @@ Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) to estimate t
 ### Ubuntu VM set-up
 1. Create Ubuntu Server VM on Azure
 - Follow the steps outlined in [this tutorial](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/quick-create-portal)
+- Pick D1_V2 machine that gives you one core and 3.5GB with local SSDs: persistent is /dev/sda and ephemeral is /dev/sdb
 - You won't need to install nginx on the VM directly, we will use docker engine and docker-compose for that
 - Optional - limit IP range for SSH connections: Browse to the resource group of the VM, click on Network Security Group (NSG) and then Inbound rules, adjust SSH rule per your IP or range
 
-2. Login
+2. Configure static IP
+- While in Azure Portal, navigate to the resource group where you put your VM
+- Navigate to public IP component in the resource group. It will typically have a name as VMNAME_ip
+- Click on the configuration menu and select "Static" then "Save"
+- Optional: specify a DNS prefix so that you can ssh to your VM via dnsPrefix.azureRegion.cloudapp.azure.com
 
+3. Login and install docker engine and docker compose
+Docker CE installation official instructions are [here](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/)
+
+```
+ssh <User_ID>@vmIp
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+```
+Verify that the key fingerprint is 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88.
+```
+sudo apt-key fingerprint 0EBFCD88
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+sudo apt-get update
+sudo apt-get install docker-ce
+```
+Verify it was installed correctly
+```
+sudo docker run hello-world
+```
+Install docker compose, 1.16.1 as of this writing. Check for the latest release [here](https://github.com/docker/compose/releases).
+```
+curl -L "https://github.com/docker/compose/releases/download/1.16.1/docker-compose-$(uname -s)-$(uname -m)" > ./docker-compose
+sudo mv ./docker-compose /usr/bin/docker-compose
+sudo chmod +x /usr/bin/docker-compose
+
+```
 ## MIT License
 
 Copyright (c) [2017] [Andrei Fateev]
