@@ -60,14 +60,35 @@ Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) to estimate t
 2. Configure static IP
 - While in Azure Portal, navigate to the resource group where you put your VM
 - Navigate to public IP component in the resource group. It will typically have a name as VMNAME_ip
-- Click on the configuration menu and select "Static" then "Save"
-- Optional: specify a DNS prefix so that you can ssh to your VM via dnsPrefix.azureRegion.cloudapp.azure.com
+- Click on the configuration menu and select "Static" then "Save". Write it down as you will need it during DNS Zone set-up step
+- Optional: specify a DNS prefix so that you can ssh to your VM via dnsPrefix.azureRegion.cloudapp.azure.com where dnsPrefix is your chosen unique VM name and azureRegion is the location you have chosen to deploy it
 
-3. Login and install docker engine and docker compose
+### Optional: Purchase a custom domain name at [Godaddy.com](https://www.godaddy.com)
+
+### Configure Azure DNS Zone 
+In order for your custom domain name to be resolved to the static IP of your VM, we need to configure Azure DNS Zone. Steps below are a copy and paste from [Pradeep Cheekatla's](https://stackoverflow.com/users/8188433/pradeep-cheekatla) [Stackoverflow instructions](https://stackoverflow.com/questions/45449401/configuring-a-custom-domain-name-for-an-azure-vm-and-godaddy)
+**Note: Name server update sometime takes hours.**
+1. To get DNS addresses, you need create DNS zones with your domain name.
+- Go to Azure Portal => New => search DNS zones => Create DNS zones
+- Specify Name = <yoursite>.com, Subscription, Resource Group, and Location
+2. Once Azure DNS zones created you can see four Name Servers.
+- ns1-06.azure-dns.com
+- ns2-06.azure-dns.net
+- ns3-06.azure-dns.org
+- ns4-06.azure-dns.info
+3. Go to GoDaddy control panel and click on the DNS
+4. Change the Nameservers by choose your new nameserver type as: Custom. Copy and paste the Name Servers from Azure DNS to GoDaddy. Make sure there are no trailing periods after each name server entry.
+5. Open Created DNS Zones and add a record set
+- Name: www
+- Type: A
+- TTL: 1 Hours
+- IP ADDRESS: Give IP Address of the VM.
+
+### Install docker engine and docker compose
 Docker CE installation official instructions are [here](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/)
 
 ```
-ssh <User_ID>@vmIp
+ssh <User_ID>@<VM_IP_ADDRESS>
 sudo apt-get install \
     apt-transport-https \
     ca-certificates \
@@ -96,6 +117,20 @@ sudo mv ./docker-compose /usr/bin/docker-compose
 sudo chmod +x /usr/bin/docker-compose
 
 ```
+## Check names servers and DNS zone were properly set-up
+We will ssh to the machine and launch simple [nginx docker](https://hub.docker.com/_/nginx/) container to make sure we can see our custom domain name resolved to the VM IP.
+```
+ssh <User_ID>@<VM_IP_ADDRESS>
+sudo docker run --name tmp-nginx-container -d -p 80:80 nginx
+```
+Check which containers you have running
+```
+sudo docker ps -a
+```
+Open browser on your client machine and you should be able to see nginx welcome page via
+1. VP IP addresses
+2. Custome DNS prefix name as in dnsPrefix.azureRegion.cloudapp.azure.com
+
 ## MIT License
 
 Copyright (c) [2017] [Andrei Fateev]
