@@ -250,6 +250,7 @@ Ctrl W
 ```
 sudo docker-compose up -d
 ```
+8. You can verify the certificate quality via Qualis [SSL Server Test](https://www.ssllabs.com/ssltest/)
 ### VIII. Initial user account and desktop client set-up
 Please refer to the following [official installation guide](https://docs.nextcloud.com/server/12/admin_manual/installation/installation_wizard.html).
 1. Open a browser and point to `www.mysite.com` you registered with GoDaddy.com. You should see nextcloud welcome screen to perform a [first time set-up](https://docs.nextcloud.com/server/12/admin_manual/installation/installation_wizard.html).
@@ -269,13 +270,13 @@ Please refer to the following [official installation guide](https://docs.nextclo
 3. Once you are logged into the admin account, go ahead and create a non admin group and a first user account under which you will set-up file, photo, contacts and calendar sync.	  
 4. Download the [nextcloud client](https://nextcloud.com/install/#install-clients) and install on your desktop.
 Follow these [official instructions](https://docs.nextcloud.com/server/12/user_manual/)
-   - You will specify `https://www.mysite.com` as you nextcloud URL
+   - You will specify **https**://www.mysite.com as your nextcloud URL
    - Provide your user_id and password that you specified in step 2 above. Happy syncing!
 
 ### IX. iOS mobile client set up
 1. Download the [following app](https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8) from the app store
 2. Launch the iOS app once installed and
-   - You will specify `**https**://www.mysite.com` as you nextcloud URL
+   - You will specify **https**://www.mysite.com as your nextcloud URL
    - Provide your user_id and password that you specified in step 2 above. Happy syncing!
 3. Follow [these steps](https://docs.nextcloud.com/server/12/user_manual/pim/sync_ios.html) to sync your contacts and calendar information
    - Make sure to specify **port 443** for TLS encryption as well as **https://** URL address 
