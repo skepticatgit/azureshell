@@ -241,6 +241,7 @@ Open a browser and point to `www.mysite.com` you registered with GoDaddy.com. Yo
 
 6. Switch back to ssh session, bring down with `sudo docker-compose down` and update the **letsencrypt** to production certificate authority by commenting out
 ```
+sudo docker-compose down
 nano docker-compose.yml
 # - ACME_CA_URI=https://acme-staging.api.letsencrypt.org/directory
 ```
