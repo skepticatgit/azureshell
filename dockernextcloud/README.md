@@ -8,10 +8,11 @@ date_published: 2017-09-08
 ## Objectives
 
 1. Provision Ubuntu VM on Azure
+1. Configure VM back up to Azure backup vault
 1. Set-up Azure DNS zone
 1. Register custom domain name with Godaddy.com
 1. Deploy nextcloud with docker containers, redis cache, MariaDB and auto renewing Letsencrypt SSL certificates
-1. Enable data, contacts and calendar sync with iOS app
+1. Enable data, contacts and calendar sync with desktop client and iOS app
 
 ## Credit
 
@@ -23,7 +24,7 @@ date_published: 2017-09-08
 1. The solution is scalable as it is based on 7 independent containers
 1. Highly portable
 1. Components are updated independantly
-1. SSL is enabled and renewed automatically via free Letsencrypt certificates 
+1. SSL/TLS encryption is enabled and renewed automatically via free Letsencrypt certificates 
 
 ## Pre-requisites
 
@@ -40,7 +41,7 @@ Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) to estimate t
    1. [Data egress pricing](https://azure.microsoft.com/en-us/pricing/details/bandwidth/) of your downloaded sync. Uploads to Azure are free.
 
 ## Architecture components
-
+(TBD Architecture diagram)
 1. Domain name hosting at [Godaddy.com](https://www.godaddy.com)
 1. Ubuntu [VM on Azure](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/Canonical.UbuntuServer?tab=PlansAndPrice)
 1. [DNS Zone](https://docs.microsoft.com/en-us/azure/dns/dns-overview) on Azure
@@ -172,9 +173,9 @@ DOMAIN=
 EMAIL=
 MYSQL_ROOT_PW=
 MYSQL_USER_PW=
+```
 Ctrl O
 Ctrl X
-```
 Where `DOMAIN` is the www.mysite.com you registered with GoDaddy.com, `EMAIL` is admin email account and finally MySQL database passwords. Repeat the process with `docler-compose.yml`, `nginx.conf` and `uploadsize.conf` files using nano text editor. While we are in the dev/test mode, we will add this entry to the **nextcloud_webserver** environment section
 ```
 - ACME_CA_URI=https://acme-staging.api.letsencrypt.org/directory
@@ -234,22 +235,49 @@ sudo docker-compose down -v
 sudo docker-compose pull
 sudo docker-compose up -d
 ```
-### VIII. Client side set-up
+Open a browser and point to `www.mysite.com` you registered with GoDaddy.com. You should see nextcloud welcome screen to perform a [first time set-up](https://docs.nextcloud.com/server/12/admin_manual/installation/installation_wizard.html).
+
+![nextcloud screen](https://docs.nextcloud.com/server/12/admin_manual/_images/install-wizard-a.png)
+6. Switch back to ssh session, bring down with `sudo docker-compose down` and update the **letsencrypt** to production certificate authority by commenting out
+```
+nano docker-compose.yml
+# - ACME_CA_URI=https://acme-staging.api.letsencrypt.org/directory
+```
+Ctrl O
+Ctrl W
+7. Restart the docker-compose
+```
+sudo docker-compose up -d
+```
+### VIII. Initial user account and desktop client set-up
 Please refer to the following [official installation guide](https://docs.nextcloud.com/server/12/admin_manual/installation/installation_wizard.html).
 1. Open a browser and point to `www.mysite.com` you registered with GoDaddy.com. You should see nextcloud welcome screen to perform a [first time set-up](https://docs.nextcloud.com/server/12/admin_manual/installation/installation_wizard.html).
-![nextcloud screen](https://docs.nextcloud.com/server/12/admin_manual/_images/install-wizard-a.png)
+
 2. Enter the following information
    - admin account ID
    - admin account password
    - Click on storage and database and specify
-      - Data folder: `/www/html/data`
-	  - MySQL ID: `root`
-	  - MySQL root password
-	  - MySQL DB: `nexcloud`
+      - Data folder (leave deafult): `/var/www/html/data`
+	  - MySQL root ID: `root`
+	  - MySQL root password: 
+	  - MySQL DB name: `nexcloud`
 	  - MySQL host: `db:3306`
-	  ![nextcloud data and db](https://docs.nextcloud.com/server/12/admin_manual/_images/install-wizard-a1.png)
-3. Once you are logged into the admin account, go ahead and create a non admin group and a first user account under which you will set-up file, photo, contacts and calendar.	  
-4. Download the nextcloud client and install on your desktop.
+![nextcloud data and db](https://docs.nextcloud.com/server/12/admin_manual/_images/install-wizard-a1.png)
+3. Once you are logged into the admin account, go ahead and create a non admin group and a first user account under which you will set-up file, photo, contacts and calendar sync.	  
+4. Download the [nextcloud client](https://nextcloud.com/install/#install-clients) and install on your desktop.
+Follow these [official instructions](https://docs.nextcloud.com/server/12/user_manual/)
+   - You will specify `https://www.mysite.com` as you nextcloud URL
+   - Provide your user_id and password that you specified in step 2 above. Happy syncing!
+
+### IX. iOS mobile client set up
+1. Download the [following app](https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8) from the app store
+2. Launch the iOS app once installed and
+   - You will specify `**https**://www.mysite.com` as you nextcloud URL
+   - Provide your user_id and password that you specified in step 2 above. Happy syncing!
+3. Follow [these steps](https://docs.nextcloud.com/server/12/user_manual/pim/sync_ios.html) to sync your contacts and calendar information
+   - Make sure to specify **port 443** for TLS encryption as well as **https://** URL address 
+
+### X. Post installation steps and maintenance   
 ## MIT License
 
 Copyright (c) [2017] [Andrei Fateev]
