@@ -246,6 +246,7 @@ nano docker-compose.yml
 ```
 Ctrl O
 Ctrl W
+
 7. Restart the docker-compose
 ```
 sudo docker-compose up -d
