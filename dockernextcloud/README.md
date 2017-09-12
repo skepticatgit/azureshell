@@ -49,8 +49,8 @@ Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) to estimate t
 1. App containers orchestrated via [docker-compose.yml](https://docs.docker.com/compose/)
    - [Nginx reverse proxy](https://github.com/jwilder/nginx-proxy) by jwilder
    - [Letsencrypt](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion) by JrC's
-   - [Nginx Web Server] (https://hub.docker.com/_/nginx/)
-   - [Nextcloud FPM] app server(https://github.com/nextcloud/docker/tree/master/12.0/fpm)
+   - [Nginx Web Server](https://hub.docker.com/_/nginx/)
+   - [Nextcloud FPM](https://github.com/nextcloud/docker/tree/master/12.0/fpm) app server
    - [Redis](https://hub.docker.com/_/redis/) cache
    - [MariaDB](https://hub.docker.com/_/mariadb/)
    - [Collabora](https://hub.docker.com/r/collabora/code/)
@@ -58,25 +58,25 @@ Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) to estimate t
 ## Step by step guide
 ### I. Ubuntu VM set-up
 1. Create Ubuntu Server VM on Azure
-- Follow the steps outlined in [this tutorial](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/quick-create-portal)
-- Pick D1_V2 machine that gives you one core and 3.5GB with local SSDs: persistent is /dev/sda and ephemeral is /dev/sdb
-- Chose one of the 38 (as of this writing) Azure regions closer to your location
-- You won't need to install nginx on the VM directly, we will use docker engine and docker-compose for that
-- Optional - limit IP range for SSH connections: Browse to the resource group of the VM, click on Network Security Group (NSG) and then Inbound rules, adjust SSH rule per your IP/range
+   - Follow the steps outlined in [this tutorial](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/quick-create-portal)
+   - Pick D1_V2 machine that gives you one core and 3.5GB with local SSDs: persistent is /dev/sda and ephemeral is /dev/sdb
+   - Chose one of the 38 (as of this writing) Azure regions closer to your location
+   - You won't need to install nginx on the VM directly, we will use docker engine and docker-compose for that
+   - Optional - limit IP range for SSH connections: Browse to the resource group of the VM, click on Network Security Group (NSG) and then Inbound rules, adjust SSH rule per your IP/range
 
 2. Configure static IP
-- While in Azure Portal, navigate to the resource group where you put your VM
-- Navigate to public IP component in the resource group. It will typically have a name as VMNAME_ip
-- Click on the configuration menu and select "Static" then "Save". Write it down as you will need it during DNS Zone set-up step
-- Optional: specify a DNS prefix so that you can ssh to your VM via **dnsPrefix.azureRegion**.cloudapp.azure.com where **dnsPrefix** is your chosen unique VM name and **azureRegion** is the location you have chosen to deploy it
+   - While in Azure Portal, navigate to the resource group where you put your VM
+   - Navigate to public IP component in the resource group. It will typically have a name as VMNAME_ip
+   - Click on the configuration menu and select "Static" then "Save". Write it down as you will need it during DNS Zone set-up step
+   - Optional: specify a DNS prefix so that you can ssh to your VM via **dnsPrefix.azureRegion**.cloudapp.azure.com where **dnsPrefix** is your chosen unique VM name and **azureRegion** is the location you have chosen to deploy it
 
 ### II. Purchase a custom domain name at [Godaddy.com](https://www.godaddy.com)
 
 ### III. Configure Azure DNS Zone 
 In order for your custom domain name to be resolved to the static IP of your VM, we need to configure Azure DNS Zone. Steps below are a copy and paste from [Pradeep Cheekatla's](https://stackoverflow.com/users/8188433/pradeep-cheekatla) Stackoverflow [instructions](https://stackoverflow.com/questions/45449401/configuring-a-custom-domain-name-for-an-azure-vm-and-godaddy). **Note: Name server update sometime takes hours.**
 1. To get DNS addresses, you need create DNS zones with your domain name.
-- Go to Azure Portal => New => search DNS zones => Create DNS zones
-- Specify Name = <yoursite>.com, Subscription, Resource Group, and Location
+   - Go to Azure Portal => New => search DNS zones => Create DNS zones
+   - Specify Name = <yoursite>.com, Subscription, Resource Group, and Location
 2. Once Azure DNS zones created you can see four Name Servers.
 ```
 - ns1-06.azure-dns.com
