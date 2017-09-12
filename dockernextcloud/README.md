@@ -254,7 +254,8 @@ sudo docker-compose up -d
 ```
 8. You can verify the certificate quality via Qualis [SSL Server Test](https://www.ssllabs.com/ssltest/)
 
-Mine passed with A grade
+Mine passed with "A" grade
+![Qualys test results](https://github.com/skepticatgit/tutorials/blob/master/dockernextcloud/images/Qualys.png)
 
 ### VIII. Initial user account and desktop client set-up
 Please refer to the following [official installation guide](https://docs.nextcloud.com/server/12/admin_manual/installation/installation_wizard.html).
