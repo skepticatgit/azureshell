@@ -284,7 +284,7 @@ Follow these [official instructions](https://docs.nextcloud.com/server/12/user_m
    - Make sure to specify **port 443** for TLS encryption as well as **https://** URL address 
 
 ### X. Post installation steps and maintenance
-1. While we were in dev/test mode, we could monitor resource utilization on the VM by variety of Linux tools. i typically use `htop`
+1. While we were in dev/test mode, we could monitor resource utilization on the VM by variety of Linux tools. I typically use `htop`, which very light weight
 ```
 sudo apt-get install htop -y
 htop
@@ -331,7 +331,12 @@ Azure VMs are backed up using [recovery services vault](https://docs.microsoft.c
    - Click on the backups in the left **settings** blade
    - Configure DailyPolicy. I suggest to maintain at least 7 daily and 4 weekly backups.
       - [Backup Vault pricing](https://azure.microsoft.com/en-us/pricing/details/backup/)
-      - [Storage blob cost of backup files](https://azure.microsoft.com/en-us/pricing/details/storage/blobs/)   
+      - [Storage blob cost of backup files](https://azure.microsoft.com/en-us/pricing/details/storage/blobs/)
+
+6. VM monitoring via Azure portal
+	- Within portal, navigate to your VM
+    - Click on the **Metrics** under **Monitoring** section of the left panel
+	- You can also set-up **Alert rules** under **Monitoring** section of the left panel
 
 ## MIT License
 
