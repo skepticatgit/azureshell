@@ -326,7 +326,12 @@ crontab -e
    - Optional: VM can be placed on a custom VNET and it will be only reachable there or via VNET peering. See this topic for [advanced set-up](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/network-overview).
 
 5. Configure VM backups
-   
+Azure VMs are backed up using [recovery services vault](https://docs.microsoft.com/en-us/azure/backup/backup-azure-arm-vms). You can manage backups via [Azure portal](https://docs.microsoft.com/en-us/azure/backup/backup-azure-manage-vms).
+   - Within portal, navigate to your VM
+   - Click on the backups in the left **settings** blade
+   - Configure DailyPolicy. I suggest to maintain at least 7 daily and 4 weekly backups.
+      - [Backup Vault pricing](https://azure.microsoft.com/en-us/pricing/details/backup/)
+      - [Storage blob cost of backup files](https://azure.microsoft.com/en-us/pricing/details/storage/blobs/)   
 
 ## MIT License
 
