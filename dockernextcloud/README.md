@@ -148,7 +148,7 @@ sudo docker rm <container_id>
 ```
 
 ### VI. Docker compose set-up
-When you ssh to Azure Ubuntu VM, you will land in `/home/<user_id>`. For your docker-compose project let's set-up the sub folder.
+When you ssh to Azure Ubuntu VM, you will land in `/home/<VM_USER_ID>`. For your docker-compose project let's set-up the sub folder.
 ```
 ssh <User_ID>@<VM_IP_ADDRESS>
 mkdir nextcloud
@@ -192,7 +192,48 @@ volumes:
       - ./proxy/certs:/etc/nginx/certs:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
 ```
-   
+### VII. Docker compose operation
+Let's make sure that we have all four files in `/home/<VM_USER_NAME>/nextcloud`
+```
+ls -la
+```
+1. You might need to create the external network first
+```
+sudo docker network create nginx-proxy
+```
+2. To start your 7 container application, we will issue this command
+```
+sudo docker-compose up -d
+```
+3. To troubleshoot and review logs of all your containers
+```
+sudo docker-compose logs
+```
+Alternatively you could specify logs of a specific container by running this command
+```
+sudo docker logs <container_name>
+```
+These are the container names as defined by **docker-compose.yml**
+   - proxy
+   - letsencrypt-companion
+   - nextcloud_webserver
+   - nextcloud_fpm
+   - db
+   - redis
+   - collabora
+4. To stop your solution, while preserving the volume data
+```
+sudo docker-compose down
+```
+While you are in a dev/test mode, you might want to clean up the contents of the docker volumes. Be careful and **don't use it in prod** as this will whipe out your data and reset config.
+```
+sudo docker-compose down -v
+```  
+5. Updating your solution is accomplished via `docker-compose pull`. I highly suggest to test the new containers in the test environment before updating your prod.
+```
+sudo docker-compose pull
+sudo docker-compose up -d
+```   
 ## MIT License
 
 Copyright (c) [2017] [Andrei Fateev]
