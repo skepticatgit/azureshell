@@ -1,5 +1,5 @@
 ---
-title: Nextcloud server with docker containers on Azure VM 
+title: Nextcloud server with docker compose on Azure
 description: Creating a multi-container personal cloud server with docker-compose 
 author: skepticatgit
 tags: Azure, Docker, Nextcloud, SSL
@@ -33,6 +33,11 @@ date_published: 2017-09-08
 
 This tutorial uses billable components of Azure Cloud. Use the [Azure Pricing
 Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) to estimate the costs for your usage.
+   1. [DNS Zone pricing](https://azure.microsoft.com/en-us/pricing/details/dns/)
+   1. [Ubuntu D1_V2 VM pricing](https://azure.microsoft.com/en-us/pricing/details/virtual-machines/linux/)
+   1. [Backup Vault pricing](https://azure.microsoft.com/en-us/pricing/details/backup/)
+      - [Storage blob cost of backup files](https://azure.microsoft.com/en-us/pricing/details/storage/blobs/)
+   1. [Data egress pricing](https://azure.microsoft.com/en-us/pricing/details/bandwidth/) of your downloaded sync. Uploads to Azure are free.
 
 ## Architecture components
 
@@ -42,48 +47,53 @@ Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) to estimate t
 1. [Letsencrypt](https://letsencrypt.org/) certificate authority
 1. [Backup vault](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/tutorial-backup-vms) for Azure VM
 1. App containers orchestrated via [docker-compose.yml](https://docs.docker.com/compose/)
-- [Nginx reverse proxy](https://github.com/jwilder/nginx-proxy) by jwilder
-- [Nextcloud FPM server](https://github.com/nextcloud/docker/tree/master/12.0/fpm)
-- [Letsencrypt](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion) by JrC's
-- [Redis](https://hub.docker.com/_/redis/) cache
-- [MariaDB](https://hub.docker.com/_/mariadb/)
-- [Collabora](https://hub.docker.com/r/collabora/code/)
+   - [Nginx reverse proxy](https://github.com/jwilder/nginx-proxy) by jwilder
+   - [Letsencrypt](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion) by JrC's
+   - [Nginx Web Server] (https://hub.docker.com/_/nginx/)
+   - [Nextcloud FPM] app server(https://github.com/nextcloud/docker/tree/master/12.0/fpm)
+   - [Redis](https://hub.docker.com/_/redis/) cache
+   - [MariaDB](https://hub.docker.com/_/mariadb/)
+   - [Collabora](https://hub.docker.com/r/collabora/code/)
 
 ## Step by step guide
-### Ubuntu VM set-up
+### I. Ubuntu VM set-up
 1. Create Ubuntu Server VM on Azure
 - Follow the steps outlined in [this tutorial](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/quick-create-portal)
 - Pick D1_V2 machine that gives you one core and 3.5GB with local SSDs: persistent is /dev/sda and ephemeral is /dev/sdb
+- Chose one of the 38 (as of this writing) Azure regions closer to your location
 - You won't need to install nginx on the VM directly, we will use docker engine and docker-compose for that
-- Optional - limit IP range for SSH connections: Browse to the resource group of the VM, click on Network Security Group (NSG) and then Inbound rules, adjust SSH rule per your IP or range
+- Optional - limit IP range for SSH connections: Browse to the resource group of the VM, click on Network Security Group (NSG) and then Inbound rules, adjust SSH rule per your IP/range
 
 2. Configure static IP
 - While in Azure Portal, navigate to the resource group where you put your VM
 - Navigate to public IP component in the resource group. It will typically have a name as VMNAME_ip
 - Click on the configuration menu and select "Static" then "Save". Write it down as you will need it during DNS Zone set-up step
-- Optional: specify a DNS prefix so that you can ssh to your VM via dnsPrefix.azureRegion.cloudapp.azure.com where dnsPrefix is your chosen unique VM name and azureRegion is the location you have chosen to deploy it
+- Optional: specify a DNS prefix so that you can ssh to your VM via **dnsPrefix.azureRegion**.cloudapp.azure.com where **dnsPrefix** is your chosen unique VM name and **azureRegion** is the location you have chosen to deploy it
 
-### Optional: Purchase a custom domain name at [Godaddy.com](https://www.godaddy.com)
+### II. Purchase a custom domain name at [Godaddy.com](https://www.godaddy.com)
 
-### Configure Azure DNS Zone 
-In order for your custom domain name to be resolved to the static IP of your VM, we need to configure Azure DNS Zone. Steps below are a copy and paste from [Pradeep Cheekatla's](https://stackoverflow.com/users/8188433/pradeep-cheekatla) [Stackoverflow instructions](https://stackoverflow.com/questions/45449401/configuring-a-custom-domain-name-for-an-azure-vm-and-godaddy). **Note: Name server update sometime takes hours.**
+### III. Configure Azure DNS Zone 
+In order for your custom domain name to be resolved to the static IP of your VM, we need to configure Azure DNS Zone. Steps below are a copy and paste from [Pradeep Cheekatla's](https://stackoverflow.com/users/8188433/pradeep-cheekatla) Stackoverflow [instructions](https://stackoverflow.com/questions/45449401/configuring-a-custom-domain-name-for-an-azure-vm-and-godaddy). **Note: Name server update sometime takes hours.**
 1. To get DNS addresses, you need create DNS zones with your domain name.
 - Go to Azure Portal => New => search DNS zones => Create DNS zones
 - Specify Name = <yoursite>.com, Subscription, Resource Group, and Location
 2. Once Azure DNS zones created you can see four Name Servers.
+```
 - ns1-06.azure-dns.com
 - ns2-06.azure-dns.net
 - ns3-06.azure-dns.org
 - ns4-06.azure-dns.info
+```
 3. Go to GoDaddy control panel and click on the DNS
 4. Change the Nameservers by choose your new nameserver type as: Custom. Copy and paste the Name Servers from Azure DNS to GoDaddy. Make sure there are no trailing periods after each name server entry.
 5. Open Created DNS Zones and add a record set
+```
 - Name: www
 - Type: A
 - TTL: 1 Hours
 - IP ADDRESS: Give IP Address of the VM.
-
-### Install docker engine and docker compose
+```
+### IV. Install docker engine and docker compose on the VM
 Docker CE installation official instructions are [here](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/)
 
 ```
@@ -116,7 +126,7 @@ sudo mv ./docker-compose /usr/bin/docker-compose
 sudo chmod +x /usr/bin/docker-compose
 
 ```
-## Check name servers and DNS zone were properly set-up
+### V. Check name servers and DNS zone were properly set-up
 We will ssh to the machine and launch simple [nginx docker](https://hub.docker.com/_/nginx/) container to make sure we can see our custom domain name resolved to the VM IP.
 ```
 ssh <User_ID>@<VM_IP_ADDRESS>
@@ -127,8 +137,9 @@ Check which containers you have running
 sudo docker ps -a
 ```
 Open browser on your client machine and you should be able to see nginx welcome page via
-1. VP IP addresses
-2. Custome DNS prefix name as in dnsPrefix.azureRegion.cloudapp.azure.com
+1. VM IP addresses
+2. Custom DNS prefix name as in **dnsPrefix.azureRegion**.cloudapp.azure.com, where **dnsPrefix** is your chosen unique VM name and **azureRegion** is the location you have chosen to deploy it to
+3. www.yoursitename.com - the final check for you GoDaddy hosted domain name to resolve to
 
 ## MIT License
 
