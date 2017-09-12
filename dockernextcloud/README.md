@@ -238,6 +238,7 @@ sudo docker-compose up -d
 Open a browser and point to `www.mysite.com` you registered with GoDaddy.com. You should see nextcloud welcome screen to perform a [first time set-up](https://docs.nextcloud.com/server/12/admin_manual/installation/installation_wizard.html).
 
 ![nextcloud screen](https://docs.nextcloud.com/server/12/admin_manual/_images/install-wizard-a.png)
+
 6. Switch back to ssh session, bring down with `sudo docker-compose down` and update the **letsencrypt** to production certificate authority by commenting out
 ```
 nano docker-compose.yml
@@ -262,7 +263,9 @@ Please refer to the following [official installation guide](https://docs.nextclo
 	  - MySQL root password: 
 	  - MySQL DB name: `nexcloud`
 	  - MySQL host: `db:3306`
+
 ![nextcloud data and db](https://docs.nextcloud.com/server/12/admin_manual/_images/install-wizard-a1.png)
+
 3. Once you are logged into the admin account, go ahead and create a non admin group and a first user account under which you will set-up file, photo, contacts and calendar sync.	  
 4. Download the [nextcloud client](https://nextcloud.com/install/#install-clients) and install on your desktop.
 Follow these [official instructions](https://docs.nextcloud.com/server/12/user_manual/)
