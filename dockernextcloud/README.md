@@ -92,7 +92,7 @@ In order for your custom domain name to be resolved to the static IP of your VM,
 - Name: www
 - Type: A
 - TTL: 1 Hours
-- IP ADDRESS: Give IP Address of the VM.
+- IP ADDRESS: Give IP Address of the VM from step I.2 above.
 ```
 ### IV. Install docker engine and docker compose on the VM
 Docker CE installation official instructions are [here](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/)
@@ -283,7 +283,51 @@ Follow these [official instructions](https://docs.nextcloud.com/server/12/user_m
 3. Follow [these steps](https://docs.nextcloud.com/server/12/user_manual/pim/sync_ios.html) to sync your contacts and calendar information
    - Make sure to specify **port 443** for TLS encryption as well as **https://** URL address 
 
-### X. Post installation steps and maintenance   
+### X. Post installation steps and maintenance
+1. While we were in dev/test mode, we could monitor resource utilization on the VM by variety of Linux tools. i typically use `htop`
+```
+sudo apt-get install htop -y
+htop
+```   
+Press F10 to exit. For a one/two users 1 core and 3.5GB of RAM is sufficient.
+
+2. Make sure to configure unattended security upgrades for Ubuntu
+See the official [instructions here](https://help.ubuntu.com/lts/serverguide/automatic-updates.html).
+Once installed, you can adjust which upgrades are applied automatically.
+```
+sudo apt-get install unattended-upgrades -y
+nano /etc/apt/apt.conf.d/50unattended-upgrades
+```
+
+3. Install clamav anti-malware
+Follow [these instructions](https://help.ubuntu.com/community/ClamAV).
+```
+sudo apt-get install clamav clamav-daemon
+sudo freshclam
+```
+Perform a fresh scan
+```
+sudo clamdscan -r /home
+```
+Enable clamav-daemon with systemctl
+```
+sudo systemctl enable clamav-daemon
+sudo systemctl start clamav-daemon
+sudo systemctl status clamav-daemon
+```
+Finally let's set-up daily scans with clamdscan via cron.
+```
+crontab -e
+00 00 * * * clamdscan -r /home
+```
+4. Disable SSH access in Azure Portal
+   - Browse to the resource group of the VM, click on Network Security Group (NSG) and then Inbound rules, delete SSH rule
+   - Optional: You might want to limit incoming IP range for ports 443 and 80
+   - Optional: VM can be placed on a custom VNET and it will be only reachable there or via VNET peering. See this topic for [advanced set-up](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/network-overview).
+
+5. Configure VM backups
+   
+
 ## MIT License
 
 Copyright (c) [2017] [Andrei Fateev]
