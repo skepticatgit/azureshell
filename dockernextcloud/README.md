@@ -284,7 +284,7 @@ Follow these [official instructions](https://docs.nextcloud.com/server/12/user_m
    - Make sure to specify **port 443** for TLS encryption as well as **https://** URL address 
 
 ### X. Post installation steps and maintenance
-1. While we were in dev/test mode, we could monitor resource utilization on the VM by variety of Linux tools. I typically use `htop`, which very light weight
+1. While we were in dev/test mode, we could monitor resource utilization on the VM by variety of Linux tools. I typically use `htop`, which is very light weight
 ```
 sudo apt-get install htop -y
 htop
@@ -337,6 +337,9 @@ Azure VMs are backed up using [recovery services vault](https://docs.microsoft.c
 	- Within portal, navigate to your VM
     - Click on the **Metrics** under **Monitoring** section of the left panel
 	- You can also set-up **Alert rules** under **Monitoring** section of the left panel
+
+7. Last, but not the least, client side encryption
+I highly suggest setting up [True Crypt 7.1a](https://www.grc.com/misc/truecrypt/truecrypt.htm)	containers and syncing them via Nextcloud. While you have achieved privacy and security by running Nextcloud VM, client side encryption is an additional level of security. One of the drawbacks with encrypted file containers is that Nextcloud currently does not support diffirential (delta) sync. Thus everytime time stamp of the encrypted file changes, Nextcloud will perform comlete resync.
 
 ## MIT License
 
