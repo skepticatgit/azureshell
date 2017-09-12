@@ -85,8 +85,8 @@ In order for your custom domain name to be resolved to the static IP of your VM,
 - ns3-06.azure-dns.org
 - ns4-06.azure-dns.info
 ```
-3. Go to GoDaddy control panel and click on the DNS
-4. Change the Nameservers by choose your new nameserver type as: Custom. Copy and paste the Name Servers from Azure DNS to GoDaddy. Make sure there are no trailing periods after each name server entry.
+3. Go to GoDaddy control panel and click on the DNS entry for your domain
+4. Change the Nameservers by choosing your new nameserver type as `Custom`. Copy and paste the Name Servers from Azure DNS to GoDaddy. Make sure there are no trailing periods after each name server entry.
 5. Open Created DNS Zones and add a record set
 ```
 - Name: www
