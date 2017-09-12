@@ -201,7 +201,7 @@ ls -la
 ```
 sudo docker network create nginx-proxy
 ```
-2. To start your 7 container application, we will issue this command
+2. To start your 7 container application, we will issue this command. **Make sure you are in the working folder** where you have required 4 files including docker-compose.yml
 ```
 sudo docker-compose up -d
 ```
@@ -233,7 +233,23 @@ sudo docker-compose down -v
 ```
 sudo docker-compose pull
 sudo docker-compose up -d
-```   
+```
+### VIII. Client side set-up
+Please refer to the following [official installation guide](https://docs.nextcloud.com/server/12/admin_manual/installation/installation_wizard.html).
+1. Open a browser and point to `www.mysite.com` you registered with GoDaddy.com. You should see nextcloud welcome screen to perform a [first time set-up](https://docs.nextcloud.com/server/12/admin_manual/installation/installation_wizard.html).
+![nextcloud screen](https://docs.nextcloud.com/server/12/admin_manual/_images/install-wizard-a.png)
+2. Enter the following information
+   - admin account ID
+   - admin account password
+   - Click on storage and database and specify
+      - Data folder: `/www/html/data`
+	  - MySQL ID: `root`
+	  - MySQL root password
+	  - MySQL DB: `nexcloud`
+	  - MySQL host: `db:3306`
+	  ![nextcloud data and db](https://docs.nextcloud.com/server/12/admin_manual/_images/install-wizard-a1.png)
+3. Once you are logged into the admin account, go ahead and create a non admin group and a first user account under which you will set-up file, photo, contacts and calendar.	  
+4. Download the nextcloud client and install on your desktop.
 ## MIT License
 
 Copyright (c) [2017] [Andrei Fateev]
