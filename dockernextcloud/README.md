@@ -139,8 +139,60 @@ sudo docker ps -a
 Open browser on your client machine and you should be able to see nginx welcome page via
 1. VM IP addresses
 2. Custom DNS prefix name as in **dnsPrefix.azureRegion**.cloudapp.azure.com, where **dnsPrefix** is your chosen unique VM name and **azureRegion** is the location you have chosen to deploy it to
-3. www.yoursitename.com - the final check for you GoDaddy hosted domain name to resolve to
+3. www.yoursitename.com - the final check for your GoDaddy hosted domain name to resolve to the IP address name of your VM on Azure
 
+Let's clean up nginx container if your test above was successful
+```
+sudo docker stop <container_id>
+sudo docker rm <container_id>
+```
+
+### VI. Docker compose set-up
+When you ssh to Azure Ubuntu VM, you will land in `/home/<user_id>`. For your docker-compose project let's set-up the sub folder.
+```
+ssh <User_ID>@<VM_IP_ADDRESS>
+mkdir nextcloud
+cd nextcloud
+```
+Next, we will create four files
+1. [.env](https://github.com/skepticatgit/tutorials/blob/master/dockernextcloud/examples/.env) with environment variables
+1. [docker-compose.yml](https://github.com/skepticatgit/tutorials/blob/master/dockernextcloud/examples/docker-compose.yml) - the template file that will orchestrate our app
+1. [nginx.conf](https://github.com/skepticatgit/tutorials/blob/master/dockernextcloud/examples/nginx.conf) nginx web server configuration file
+1. [uploadsize.conf](https://github.com/skepticatgit/tutorials/blob/master/dockernextcloud/examples/uploadsize.conf) nextcloud configuration entry to control upload file size
+```
+touch .env
+touch docker-compose.yml
+touch nginx.conf
+touch uploadsize.conf
+```
+`.env` will have four entries. Let's open the file and update these entries
+```
+nano .env
+DOMAIN=
+EMAIL=
+MYSQL_ROOT_PW=
+MYSQL_USER_PW=
+Ctrl O
+Ctrl X
+```
+Where `DOMAIN` is the www.mysite.com you registered with GoDaddy.com, `EMAIL` is admin email account and finally MySQL database passwords. Repeat the process with `docler-compose.yml`, `nginx.conf` and `uploadsize.conf` files using nano text editor. While we are in the dev/test mode, we will add this entry to the **nextcloud_webserver** environment section
+```
+- ACME_CA_URI=https://acme-staging.api.letsencrypt.org/directory
+```
+This will direct letsencrypt certificate authority to use non production entity.
+
+Now, let's inspect the contents of `docker-compose.yml`. Docker compose functionality is beyond this tutorial, but you can read this [article](https://docs.docker.com/compose/overview/) to better understand the mechanics.
+
+All the data including database and config files will be persisted between docker updates as we are using docker-compose volumes. See the section
+```
+volumes:
+      - ./proxy/conf.d:/etc/nginx/conf.d
+      - ./proxy/vhost.d:/etc/nginx/vhost.d
+      - ./proxy/html:/usr/share/nginx/html
+      - ./proxy/certs:/etc/nginx/certs:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+```
+   
 ## MIT License
 
 Copyright (c) [2017] [Andrei Fateev]
