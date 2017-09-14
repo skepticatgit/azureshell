@@ -72,11 +72,12 @@ Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) to estimate t
    - Optional: specify a DNS prefix so that you can ssh to your VM via **dnsPrefix.azureRegion**.cloudapp.azure.com where **dnsPrefix** is your chosen unique VM name and **azureRegion** is the location you have chosen to deploy it
 
 ### II. Purchase a custom domain name at [Godaddy.com](https://www.godaddy.com)
+For the purposes of this tutorial we will assume you have registered <yoursite>.com
 
 ### III. Configure Azure DNS Zone 
 In order for your custom domain name to be resolved to the static IP of your VM, we need to configure Azure DNS Zone. Steps below are a copy and paste from [Pradeep Cheekatla's](https://stackoverflow.com/users/8188433/pradeep-cheekatla) Stackoverflow [instructions](https://stackoverflow.com/questions/45449401/configuring-a-custom-domain-name-for-an-azure-vm-and-godaddy). **Note: Name server update sometime takes hours.**
 1. To get DNS addresses, you need create DNS zones with your domain name.
-   - Go to Azure Portal => New => search DNS zones => Create DNS zones
+   - Go to Azure Portal => New => search for **DNS zones** => Create DNS zones
    - Specify Name = <yoursite>.com, Subscription, Resource Group, and Location
 2. Once Azure DNS zones created you can see four Name Servers.
 ```
@@ -138,9 +139,9 @@ Check which containers you have running
 sudo docker ps -a
 ```
 Open browser on your client machine and you should be able to see nginx welcome page via
-1. VM IP addresses
+1. VM IP address (from "Public IP address" setting in Azure Portal)
 2. Custom DNS prefix name as in **dnsPrefix.azureRegion**.cloudapp.azure.com, where **dnsPrefix** is your chosen unique VM name and **azureRegion** is the location you have chosen to deploy it to
-3. www.yoursitename.com - the final check for your GoDaddy hosted domain name to resolve to the IP address name of your VM on Azure
+3. www.<yoursite>.com - the final check for your GoDaddy hosted domain name to resolve to the IP address name of your VM on Azure
 
 Let's clean up nginx container if your test above was successful
 ```
@@ -176,7 +177,7 @@ MYSQL_USER_PW=
 ```
 Ctrl O
 Ctrl X
-Where `DOMAIN` is the www.mysite.com you registered with GoDaddy.com, `EMAIL` is admin email account and finally MySQL database passwords. Repeat the process with `docler-compose.yml`, `nginx.conf` and `uploadsize.conf` files using nano text editor. While we are in the dev/test mode, we will add this entry to the **nextcloud_webserver** environment section
+Where `DOMAIN` is the www.<yoursite>.com you registered with GoDaddy.com, `EMAIL` is admin email account and finally MySQL database passwords. Repeat the process with `docler-compose.yml`, `nginx.conf` and `uploadsize.conf` files using nano text editor. While we are in the dev/test mode, we will add this entry to the **nextcloud_webserver** environment section
 ```
 - ACME_CA_URI=https://acme-staging.api.letsencrypt.org/directory
 ```
@@ -239,7 +240,7 @@ Open a browser and point to `www.mysite.com` you registered with GoDaddy.com. Yo
 
 ![nextcloud screen](https://docs.nextcloud.com/server/12/admin_manual/_images/install-wizard-a.png)
 
-6. Switch back to ssh session, bring down with `sudo docker-compose down` and update the **letsencrypt** to production certificate authority by commenting out
+6. Switch back to ssh session, bring down with `sudo docker-compose down` and update the **letsencrypt** to production certificate authority by commenting out **ACME_CA_URI** line
 ```
 sudo docker-compose down
 nano docker-compose.yml
@@ -288,7 +289,9 @@ Follow these [official instructions](https://docs.nextcloud.com/server/12/user_m
    - Make sure to specify **port 443** for TLS encryption as well as **https://** URL address 
 
 ### X. Post installation steps and maintenance
-1. While we were in dev/test mode, we could monitor resource utilization on the VM by variety of Linux tools. I typically use `htop`, which is very light weight
+1. VM resource utilization
+
+While we were in dev/test mode, we could monitor resource utilization on the VM by variety of Linux tools. I typically use `htop`, which is very light weight
 ```
 sudo apt-get install htop -y
 htop
@@ -296,6 +299,7 @@ htop
 Press F10 to exit. For a one/two users 1 core and 3.5GB of RAM is sufficient.
 
 2. Make sure to configure unattended security upgrades for Ubuntu
+
 See the official [instructions here](https://help.ubuntu.com/lts/serverguide/automatic-updates.html).
 Once installed, you can adjust which upgrades are applied automatically.
 ```
@@ -304,6 +308,7 @@ nano /etc/apt/apt.conf.d/50unattended-upgrades
 ```
 
 3. Install clamav anti-malware
+
 Follow [these instructions](https://help.ubuntu.com/community/ClamAV).
 ```
 sudo apt-get install clamav clamav-daemon
@@ -330,6 +335,7 @@ crontab -e
    - Optional: VM can be placed on a custom VNET and it will be only reachable there or via VNET peering. See this topic for [advanced set-up](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/network-overview).
 
 5. Configure VM backups
+
 Azure VMs are backed up using [recovery services vault](https://docs.microsoft.com/en-us/azure/backup/backup-azure-arm-vms). You can manage backups via [Azure portal](https://docs.microsoft.com/en-us/azure/backup/backup-azure-manage-vms).
    - Within portal, navigate to your VM
    - Click on the backups in the left **settings** blade
