@@ -23,7 +23,7 @@ date_published: 2017-09-08
 1. Privacy: This could be consider de-googlification of your storage, contacts and calendar sync
 1. The solution is scalable as it is based on 7 independent containers
 1. Highly portable
-1. Components are updated independantly
+1. Components can be updated independently
 1. SSL/TLS encryption is enabled and renewed automatically via free Letsencrypt certificates 
 
 ## Pre-requisites
