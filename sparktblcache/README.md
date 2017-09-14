@@ -53,20 +53,20 @@ show tables;
 ```
 select count(*) from hivesampletable;
 ```
-Operation accomplished in 16 seconds.
+Operation accomplished in **16 seconds**.
 
 6. Cache the sample table in memory and then execute a one row count. You need to do this to commit the change as by default Spark performs "lazy execution". [Img. 7](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img7.jpg?raw=true)	
 ```
-$cache table hivesampletable;
-$select count(1) from hivesampletable;	
+cache table hivesampletable;
+select count(1) from hivesampletable;	
 ```	
 
 7. Now let's compare the same row count with in-memory cached table. [Img. 8](https://github.com/skepticatgit/tutorials/blob/master/sparktblcache/images/Img8.jpg?raw=true)
 ```
-$select count(*) from hivesampletable;
+select count(*) from hivesampletable;
 ```	
 
-Not bad: under 0.5 second! You can disconnect beeline client by executing
+Not bad: under **0.5 second**! You can disconnect beeline client by executing
 ```
 !q
 ```
