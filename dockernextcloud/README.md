@@ -72,13 +72,13 @@ Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) to estimate t
    - Optional: specify a DNS prefix so that you can ssh to your VM via **dnsPrefix.azureRegion**.cloudapp.azure.com where **dnsPrefix** is your chosen unique VM name and **azureRegion** is the location you have chosen to deploy it
 
 ### II. Purchase a custom domain name at [Godaddy.com](https://www.godaddy.com)
-For the purposes of this tutorial we will assume you have registered <yoursite>.com
+For the purposes of this tutorial we will assume you have registered `<YOURSITE>.com`
 
 ### III. Configure Azure DNS Zone 
 In order for your custom domain name to be resolved to the static IP of your VM, we need to configure Azure DNS Zone. Steps below are a copy and paste from [Pradeep Cheekatla's](https://stackoverflow.com/users/8188433/pradeep-cheekatla) Stackoverflow [instructions](https://stackoverflow.com/questions/45449401/configuring-a-custom-domain-name-for-an-azure-vm-and-godaddy). **Note: Name server update sometime takes hours.**
 1. To get DNS addresses, you need create DNS zones with your domain name.
    - Go to Azure Portal => New => search for **DNS zones** => Create DNS zones
-   - Specify Name = YOURSITE.com, Subscription, Resource Group, and Location
+   - Specify Name = `<YOURSITE>.com`, Subscription, Resource Group, and Location
 2. Once Azure DNS zones created you can see four Name Servers.
 ```
 - ns1-06.azure-dns.com
@@ -141,7 +141,7 @@ sudo docker ps -a
 Open browser on your client machine and you should be able to see nginx welcome page via
 1. VM IP address (from "Public IP address" setting in Azure Portal)
 2. Custom DNS prefix name as in **dnsPrefix.azureRegion**.cloudapp.azure.com, where **dnsPrefix** is your chosen unique VM name and **azureRegion** is the location you have chosen to deploy it to
-3. www.YOURSITE.com - the final check for your GoDaddy hosted domain name to resolve to the IP address name of your VM on Azure
+3. `www.<YOURSITE>.com` - the final check for your GoDaddy hosted domain name to resolve to the IP address name of your VM on Azure
 
 Let's clean up nginx container if your test above was successful
 ```
@@ -177,7 +177,7 @@ MYSQL_USER_PW=
 ```
 Ctrl O
 Ctrl X
-Where `DOMAIN` is the www.YOURSITE.com you registered with GoDaddy.com, `EMAIL` is admin email account and finally MySQL database passwords. Repeat the process with `docler-compose.yml`, `nginx.conf` and `uploadsize.conf` files using nano text editor. While we are in the dev/test mode, we will add this entry to the **nextcloud_webserver** environment section
+Where `DOMAIN` is the `www.<YOURSITE>.com` you registered with GoDaddy.com, `EMAIL` is admin email account and finally MySQL database passwords. Repeat the process with `docler-compose.yml`, `nginx.conf` and `uploadsize.conf` files using nano text editor. While we are in the dev/test mode, we will add this entry to the **nextcloud_webserver** environment section
 ```
 - ACME_CA_URI=https://acme-staging.api.letsencrypt.org/directory
 ```
