@@ -253,14 +253,16 @@ Ctrl W
 ```
 sudo docker-compose up -d
 ```
-8. You can verify the certificate quality via Qualis [SSL Server Test](https://www.ssllabs.com/ssltest/)
+8. You can verify the certificate quality via Qualys [SSL Server Test](https://www.ssllabs.com/ssltest/)
 
 Mine passed with "A" grade
 ![Qualys test results](https://github.com/skepticatgit/tutorials/blob/master/dockernextcloud/images/Qualys.png)
 
 ### VIII. Initial user account and desktop client set-up
 Please refer to the following [official installation guide](https://docs.nextcloud.com/server/12/admin_manual/installation/installation_wizard.html).
-1. Open a browser and point to `www.mysite.com` you registered with GoDaddy.com. You should see nextcloud welcome screen to perform a [first time set-up](https://docs.nextcloud.com/server/12/admin_manual/installation/installation_wizard.html).
+1. Open a browser and point to `www.<YOURSITE>.com` you registered with GoDaddy.com. 
+You should see nextcloud welcome screen to perform a [first time set-up](https://docs.nextcloud.com/server/12/admin_manual/installation/installation_wizard.html).
+Check that nginx has forwarded you to secure `https` URL.
 
 2. Enter the following information
    - admin account ID
