@@ -41,7 +41,7 @@ Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) to estimate t
    1. [Data egress pricing](https://azure.microsoft.com/en-us/pricing/details/bandwidth/) of your downloaded sync. Uploads to Azure are free.
 
 ## Architecture components
-(TBD Architecture diagram)
+![Architecture diagram](https://github.com/skepticatgit/tutorials/blob/master/dockernextcloud/images/dockernextcloud.png)
 1. Domain name hosting at [Godaddy.com](https://www.godaddy.com)
 1. Ubuntu [VM on Azure](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/Canonical.UbuntuServer?tab=PlansAndPrice)
 1. [DNS Zone](https://docs.microsoft.com/en-us/azure/dns/dns-overview) on Azure
