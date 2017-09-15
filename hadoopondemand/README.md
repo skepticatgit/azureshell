@@ -2,7 +2,7 @@
 title: Big Data Clusters on Demand Tutorial
 description: How to automate creation, scaling and deletion of HDInsight Spark cluster on Azure.
 author: skepticatgit
-tags: Azure, HDInsight, IaC, Spark, Cloud Automation
+tags: Azure, HDInsight, IaC, Spark, Azure CLI
 date_published: 2017-07-28
 ---
 ## Objectives
@@ -35,8 +35,8 @@ Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) to estimate t
 ## Step by step guide
 
 ### Create two bash scripts
-- [hdicreate.sh](https://github.com/skepticatgit/tutorials/blob/master/hadoopondemand/scripts/hdicreate.sh?raw=true) that will log-in into our account as a service principle and provision the cluster
-- [hdidelete.sh](https://github.com/skepticatgit/tutorials/blob/master/hadoopondemand/scripts/hdidelete.sh?raw=true) that will log-in into our account as a service principle and delete the cluster
+- [hdicreate.sh](https://github.com/skepticatgit/tutorials/blob/master/hadoopondemand/scripts/hdicreate.sh?raw=true) that will log-in into our account as a service principal and provision the cluster
+- [hdidelete.sh](https://github.com/skepticatgit/tutorials/blob/master/hadoopondemand/scripts/hdidelete.sh?raw=true) that will log-in into our account as a service principal and delete the cluster
 - **Optional**: provision a Linux VM or Linux serverless environment to execute cron with the scripts above
 
 **hdicreate.sh**
@@ -104,16 +104,21 @@ printf "Done. Goodbye...\n "
 ```
 A quick script breakdown
 
-1. Don’t forget to add “&” if you want execution in the background. This will take about 12 minutes.
+1. Don’t forget to add “&” if you want execution in the background. Cluster creation process will take about 12 minutes.
 2. Script creates a two head node and two worker node [Spark cluster](https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-apache-spark-overview#next-steps)
-- This is a “frugal” Spark cluster as with 4-core/14 GB RAM [per node](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes-general)
-- Spark Core. Includes Spark Core, Spark SQL, Spark streaming APIs, GraphX, and MLlib.
-- Ambari dashboard
-- Zookeeper
-- Anaconda
-- Livy
-- Jupyter notebook
-- Zeppelin notebook
+   - This is a “frugal” Spark cluster as with 4-core/14 GB RAM [per node](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes-general)
+   - Spark Core. Includes 
+      - Spark Core
+	  - Spark SQL
+	  - Spark streaming APIs
+	  - GraphX
+	  - MLlib
+   - Ambari dashboard
+   - Zookeeper
+   - Anaconda
+   - Livy
+   - Jupyter notebook
+   - Zeppelin notebook
 3. The data will be committed a-sync and persisted on the blob (object storage). You can maintain inputs, outputs, Spark SQL and UDFs here and they will survive cluster deletions and scale-up / scale-down
 4. (Optionally) You can create and persist meta store on the managed SQL or MySQL Azure instance
 
