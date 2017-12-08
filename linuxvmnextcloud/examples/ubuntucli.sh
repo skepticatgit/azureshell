@@ -28,7 +28,7 @@ az network nsg create \
     --resource-group $myResourceGroup \
     --name myNetworkSecurityGroup
 
-echo "STEP 5 of 8: Creating inbound firewall rule, please wait."
+echo "STEP 5 of 7: Creating inbound firewall rule, please wait."
 az network nsg rule create \
     --resource-group $myResourceGroup \
     --nsg-name myNetworkSecurityGroup \
@@ -38,7 +38,6 @@ az network nsg rule create \
     --destination-port-range 22 \
     --access allow
 
-echo "STEP 6 of 8: Creating inbound firewall rule, please wait."
 az network nsg rule create \
     --resource-group $myResourceGroup \
     --nsg-name myNetworkSecurityGroup \
@@ -48,7 +47,16 @@ az network nsg rule create \
     --destination-port-range 443 \
     --access allow
 
-echo "STEP 7 of 8: Creating network interface card, please wait."
+az network nsg rule create \
+    --resource-group $myResourceGroup \
+    --nsg-name myNetworkSecurityGroup \
+    --name myNetworkSecurityGroupRuleWeb \
+    --protocol tcp \
+    --priority 1002 \
+    --destination-port-range 80 \
+    --access allow
+
+echo "STEP 6 of 7: Creating network interface card, please wait."
 az network nic create \
     --resource-group $myResourceGroup \
     --name myNic \
@@ -57,7 +65,7 @@ az network nic create \
     --public-ip-address myPublicIP \
     --network-security-group myNetworkSecurityGroup
 
-echo "STEP 8 of 8: Creating virtual machine, please wait."
+echo "STEP 7 of 7: Creating virtual machine, please wait."
 az vm create \
     --resource-group $myResourceGroup \
     --name myVM \
