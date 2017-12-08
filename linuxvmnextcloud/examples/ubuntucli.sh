@@ -41,7 +41,7 @@ az network nsg rule create \
 az network nsg rule create \
     --resource-group $myResourceGroup \
     --nsg-name myNetworkSecurityGroup \
-    --name myNetworkSecurityGroupRuleWeb \
+    --name myNetworkSecurityGroupRuleHTTPS \
     --protocol tcp \
     --priority 1001 \
     --destination-port-range 443 \
@@ -50,7 +50,7 @@ az network nsg rule create \
 az network nsg rule create \
     --resource-group $myResourceGroup \
     --nsg-name myNetworkSecurityGroup \
-    --name myNetworkSecurityGroupRuleWeb \
+    --name myNetworkSecurityGroupRuleHTTP \
     --protocol tcp \
     --priority 1002 \
     --destination-port-range 80 \
