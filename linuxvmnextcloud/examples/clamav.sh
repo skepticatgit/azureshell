@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-sudo apt-get install clamav clamav-daemon
+sudo apt-get install -y clamav clamav-daemon libclamunrar7
 
 sudo freshclam
 

@@ -70,4 +70,7 @@ az vm create \
     --size $vmSize
 
 echo "Your VM has been successfully set-up. You can SSH to it via DNS name below:"
-echo $myPublicDNS$dnsSuffix
+az vm show --resource-group $myResourceGroup --name myVM --show-details --query [fqdns] --output tsv
+
+echo "...or the Public IP below"
+az vm list-ip-addresses -g $myResourceGroup -n myVM --output table
