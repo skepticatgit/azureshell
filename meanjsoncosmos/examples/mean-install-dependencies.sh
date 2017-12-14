@@ -6,7 +6,7 @@
 #date			:2017-12-05
 #version		:0.1
 
-#instal Git
+#install Git
 sudo apt-get install git-all -y
 
 #install mongo
