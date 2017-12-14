@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 myResourceGroup=<setItHere>
 myPublicDNS=<setItHere>
-dnsSuffix=".cloudapp.azure.com"
 myUser=<setItHere>
 myPass=<setItHere>
 vmSize=Standard_D1_v2
+omsId=<setHere>
+omsKey=<setHere>
 
 echo "STEP 1 of 8: Creating the resource group, please wait."
 az group create --name $myResourceGroup --location eastus2
@@ -28,7 +29,7 @@ az network nsg create \
     --resource-group $myResourceGroup \
     --name myNetworkSecurityGroup
 
-echo "STEP 5 of 7: Creating inbound firewall rule, please wait."
+echo "STEP 5 of 8: Creating inbound firewall rule, please wait."
 az network nsg rule create \
     --resource-group $myResourceGroup \
     --nsg-name myNetworkSecurityGroup \
@@ -56,7 +57,7 @@ az network nsg rule create \
     --destination-port-range 80 \
     --access allow
 
-echo "STEP 6 of 7: Creating network interface card, please wait."
+echo "STEP 6 of 8: Creating network interface card, please wait."
 az network nic create \
     --resource-group $myResourceGroup \
     --name myNic \
@@ -65,7 +66,7 @@ az network nic create \
     --public-ip-address myPublicIP \
     --network-security-group myNetworkSecurityGroup
 
-echo "STEP 7 of 7: Creating virtual machine, please wait."
+echo "STEP 7 of 8: Creating virtual machine, please wait."
 az vm create \
     --resource-group $myResourceGroup \
     --name myVM \
@@ -76,6 +77,15 @@ az vm create \
     --admin-username $myUser \
     --admin-password $myPass \
     --size $vmSize
+
+echo "STEP 8 of 8: Configuring operations management suite, please wait."
+az vm extension set \
+  --resource-group $myResourceGroup \
+  --vm-name myVM \
+  --name OmsAgentForLinux \
+  --publisher Microsoft.EnterpriseCloud.Monitoring \
+  --version 1.0 --protected-settings '{"workspaceKey": "'"$omsKey"'"}' \
+  --settings '{"workspaceId": "'"$omsId"'"}'
 
 echo "Your VM has been successfully set-up. You can SSH to it via DNS name below:"
 az vm show --resource-group $myResourceGroup --name myVM --show-details --query [fqdns] --output tsv
