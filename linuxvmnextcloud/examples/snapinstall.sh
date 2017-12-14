@@ -3,10 +3,11 @@
 # download the Nextcloud snap package and install it on the system
 # this is the recommended way: sudo snap install nextcloud
 # to update snap installation: sudo snap refresh nextcloud --channel=stable/pr-388 
-sudo snap refresh --stable nextcloud # to get stable 12.0.4
 adminId=<SET_HERE>
 adminPw=<SET_HERE>
 dnsName=<SET_HERE>
+
+sudo snap install --stable nextcloud # to get stable 12.0.4
 
 # confirm that the installation process was successful by listing the changes associated with the snap
 snap changes nextcloud
