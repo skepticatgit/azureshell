@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+#description     :This script creates azure VM and needed infrastructure
+#author          :Andrei Fateev (github: skepticatgit; contact andf at microsoft dot com)
+#date            :2017-12-12
+#version         :0.1
+#notes           :Requires cloud console with azure CLI, and you must login to Azure Portal.
+#====================================================================================
 myResourceGroup=<setItHere>
 myPublicDNS=<setItHere>
 myUser=<setItHere>

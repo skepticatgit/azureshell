@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+#description     :Update Ubuntu Server VM and install clamav anti virus
+#author          :Andrei Fateev (github: skepticatgit; contact andf at microsoft dot com)
+#date            :2017-12-12
+#version         :0.1
+
 # Updating apt-get and upgrading your system. 
 sudo apt-get update && sudo apt-get upgrade -y
 

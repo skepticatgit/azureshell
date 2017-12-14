@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
-# Source: https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-nextcloud-on-ubuntu-16-04
-# download the Nextcloud snap package and install it on the system
-# this is the recommended way: sudo snap install nextcloud
-# to update snap installation: sudo snap refresh nextcloud --channel=stable/pr-388 
+#description     :download the Nextcloud snap package and install it on the system
+#author          :Andrei Fateev (github: skepticatgit; contact andf at microsoft dot com)
+#date            :2017-12-12
+#version         :0.1
+#notes           :Requires cloud console with azure CLI, and you must login to Azure Portal.
+#Source          :https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-nextcloud-on-ubuntu-16-04
+#                 this is the recommended way: sudo snap install nextcloud
+#                 to update snap installation: sudo snap refresh nextcloud --channel=stable/pr-388 
+#====================================================================================
 adminId=<SET_HERE>
 adminPw=<SET_HERE>
 dnsName=<SET_HERE>
