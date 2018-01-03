@@ -10,16 +10,16 @@ date_published: 2017-12-14
 1. Install all the pre-requisites and MEAN stack on Ubuntu desktop for the demo
 1. Provision Cosmos DB with MongoDB API
 1. Pull scotch-io mean-google-maps application
-1. Copy MongoDB collection from scotch-io tutorial into Cosmos DB 
+1. Copy MongoDB collection from scotch-io tutorial into fresh Cosmos DB instance
 1. Update mean-google-maps server settings to use Cosmos DB
 
 ## Credit
-1. [Chris Sevilleja](https://github.com/sevilayha) for his  [MeanMapAppV2.0](https://github.com/skepticatgit/mean-google-maps) app
-1. Kirill Gavrylyuk() for [Channel9 CosmosDB intro video](https://channel9.msdn.com/Shows/Azure-Friday/Introducing-Azure-Cosmos-DB)
+1. [Chris Sevilleja](https://github.com/sevilayha) for his  [MeanMapAppV2.0](https://github.com/skepticatgit/mean-google-maps) app and tutorial
+1. Kirill Gavrylyuk(https://www.linkedin.com/in/kirillgavrylyuk/) for [Channel9 CosmosDB intro video](https://channel9.msdn.com/Shows/Azure-Friday/Introducing-Azure-Cosmos-DB)
 
 ## Step by step guide
 ### I. Ubuntu client pre-requisites and MEAN.js stack
-If you MEAN.js developer, most likely you don't need to follow this tutorial and just skip to Kirill's video. This targeted towards non developers who have a fresh Linux client machine to set up and demo Mongo API capability of Cosmos DB.
+If you are a MEAN.js developer, most likely you don't need to follow this tutorial and just skip to Kirill's video. This is targeted towards non developers who have a fresh Linux client machine. I will show you how to set up and demo Mongo API capability of Cosmos DB.
 
 Assuming you have Ubuntu 16.04 LTS desktop or one of it's direvatives, let's cut to the chase - get and execute the script from your Linux client:
 ```
