@@ -54,14 +54,14 @@ bower install angularjs-geolocation#0.1.1
 bower install bootstrap#3.3.5
 bower install modernizr#3.0.0
 
-#download and install Studio 3T v5.7.0, formerly MongoChef
+#download and install Studio 3T v5.7.2, formerly MongoChef
 mkdir studio3t
 cd studio3t
-wget https://download.studio3t.com/studio-3t/linux/5.7.0/studio-3t-linux-x64.tar.gz
+wget https://download.studio3t.com/studio-3t/linux/5.7.2/studio-3t-linux-x64.tar.gz
 tar -xvzf studio-3t-linux-x64.tar.gz
 chmod +x studio-3t-linux-x64.sh
 
-#Launching GUI portion of MongoChef installer
+#Launching GUI portion of MongoChef installer, specify /bin subfolder at the GUI prompt
 ./studio-3t-linux-x64.sh
 
 ```
