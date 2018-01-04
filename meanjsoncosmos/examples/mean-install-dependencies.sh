@@ -20,6 +20,9 @@ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 sudo apt-get install -y nodejs
 sudo apt-get install -y build-essential
 
+#install npm
+sudo apt-get install -y npm
+
 #install bower and create a sim link for compatability
 npm install -g bower
 sudo ln -s /usr/bin/nodejs /usr/bin/node #alternatively install legacy: apt-get install nodejs-legacy

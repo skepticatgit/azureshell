@@ -44,6 +44,9 @@ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 sudo apt-get install -y nodejs
 sudo apt-get install -y build-essential
 
+#install npm
+sudo apt-get install -y npm
+
 #install bower and create a sim link for compatability
 npm install -g bower
 sudo ln -s /usr/bin/nodejs /usr/bin/node #alternatively install legacy: apt-get install nodejs-legacy
@@ -65,4 +68,11 @@ chmod +x studio-3t-linux-x64.sh
 ./studio-3t-linux-x64.sh
 
 ```
-
+### II. Git clone Google Maps created for Scotch IO Tutorial
+```
+mkdir projects
+cd projects
+git clone https://github.com/skepticatgit/mean-google-maps.git
+cd mean-google-maps
+npm install
+```
