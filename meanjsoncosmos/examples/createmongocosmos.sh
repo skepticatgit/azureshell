@@ -1,7 +1,7 @@
 #!/bin/bash
 #description	:This script requires Azure cloud shell with CLI 2.0 and it deploys CosmosDB instance with Mongo API
 #notes			:Tutorial is at https://docs.microsoft.com/en-us/azure/cosmos-db/scripts/create-mongodb-database-account-cli?toc=%2fcli%2fazure%2ftoc.json#sample-script
-#date			:2017-12-05
+#date			:2018-01-04
 #version		:0.1
 
 # Set variables for the new account, database, and collection

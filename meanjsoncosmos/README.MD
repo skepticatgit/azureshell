@@ -81,3 +81,86 @@ npm install
 node server
 ```
 You should be able to point your browser now to [localhost:3000](http://localhost:3000) and the app will launch and run locally.
+
+### III. Create CosmosDB with Mongo API 
+If you already have a CosmosDB with Mongo API instance, you can skip to the export-import section.
+
+Log into Azure portal with your credentials
+Launch [cloud shell](https://docs.microsoft.com/en-us/azure/cosmos-db/scripts/create-mongodb-database-account-cli?toc=%2fcli%2fazure%2ftoc.json#launch-azure-cloud-shell)
+Pull this script and execute it
+```
+wget https://raw.githubusercontent.com/skepticatgit/tutorials/master/meanjsoncosmos/examples/createmongocosmos.sh
+chmod +x createmongocosmos.sh
+./createmongocosmos.sh
+```
+Now let's get the connection string:
+1. Close cloud shell
+1. Browse to the newly created CosmosDB instance
+1. Click on the "Quick Start" menu item in the left pane. Hint: it is located under "Overview" stack of items.
+1. You will .NET tab open by default. Click on copy icon next to the "Primary Conenction String". 
+
+### IV. Connect to Scotch-IO and CosmosDB instances of Mongo
+Launch Studio 3T (formerly MongoChef). If it's a new installation it will have no existing connections and you will be presented with the connection manager.
+1. Click on "New conenction"
+1. Click on "From URI"
+1. Paste the string you copied above in Azure Portal
+1. Click connect and you should see "docdb-test.documents.azure.com:10255" server amd "admin" DB with no collections.
+
+Now lets browse to the location of the "config.js" file located where you pulled the git repo of the MEAN-GOOGLE-MAPS. You will need the connection string info:
+```
+mean-google-maps/app/config.js
+```
+Copy the string:
+```
+mongodb://scotch:scotchrocks@ds051853.mongolab.com:51853/mean-map-app
+```
+Switch back to Studio 3T (formerly MongoChef). 
+1. Click on "New conenction"
+1. Click on "From URI"
+1. Paste without double quotes "mongodb://scotch:scotchrocks@ds051853.mongolab.com:51853/mean-map-app"
+1. You should see "ds051853.mongolab.com:51853" server and "mean-map-app" MongoDB
+
+### V. Import collection to CosmosDB
+In the [video](https://channel9.msdn.com/Shows/Azure-Friday/Introducing-Azure-Cosmos-DB) Kirill uses "copy-paste collection" functionality of the Studio 3T. Somehow it has not worked for me as I was getting "An error occurred while trying to copy indices". We will perform "export-import" instead.
+1. While in Studio 3T, right click on the "scotch-users" collection
+1. Click on "Export collection"
+1. Specify "JSON" file format
+1. Next, specify top "JSON - mongo shell / Studio 3T" option
+1. Specify file name as "scotch-users.json" without "mean-map-app." prefix
+1. Click "Export" and verify that you have the "scotch-users.json" file in the location of your choice
+
+Now let's import that file into your CosmosDB as a new collection.
+1. While in Studio 3T, right click on empty "Collections" object under "admin" DB of your "docdb-test.documents.azure.com:10255" instance
+1. Select import and specify first top option "JSON - mongo shell..."
+1. Click on plus "+" icon and point to the "scotch-users.json" file 
+1. Click "Next"
+1. Click on "Start Import". Check the log for any errors.
+
+### VI. Switch mean-map-app to use CosmosDB
+Let's backup the "mean-google-maps/app/config.js" first as we will make a change in it:
+```
+cp mean-google-maps/app/config.js mean-google-maps/app/config.bkp
+```
+Open "mean-google-maps/app/config.js" in the editor of your choice:
+1. Change "mongolab" connection name to "cosmosdb"
+1. Change the string following "url" to you CosmosDB string from Azure Portal.
+1. Save the file
+Since we updated the connection name to "cosmosdb", we need to update it in the "server.js" file as well
+Let's backup the "server.js" as we will make a change in it:
+```
+cp mean-google-maps/server.js mean-google-maps/server.bkp
+```
+Open "mean-google-maps/server.js" in the editor of your choice to change from
+```
+mongoose.connect(database.mongolab.url);
+```
+to 
+```
+mongoose.connect(database.cosmosdb.url);
+```
+Save the file. Restart the server by pressing "Ctrl C" and then type 
+```
+node server
+```
+while you are in "mean-google-maps" folder. 
+Switch to the browser and reload this url: [localhost:3000](http://localhost:3000)
