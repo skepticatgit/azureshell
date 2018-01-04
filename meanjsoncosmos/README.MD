@@ -97,7 +97,7 @@ Now let's get the connection string:
 1. Close cloud shell
 1. Browse to the newly created CosmosDB instance
 1. Click on the "Quick Start" menu item in the left pane. Hint: it is located under "Overview" stack of items.
-1. You will .NET tab open by default. Click on copy icon next to the "Primary Conenction String". 
+1. You will see the ".NET" tab open by default. Click on the "copy" icon next to the "Primary Conenction String". 
 
 ### IV. Connect to Scotch-IO and CosmosDB instances of Mongo
 Launch Studio 3T (formerly MongoChef). If it's a new installation it will have no existing connections and you will be presented with the connection manager.
@@ -164,3 +164,11 @@ node server
 ```
 while you are in "mean-google-maps" folder. 
 Switch to the browser and reload this url: [localhost:3000](http://localhost:3000)
+Now let's test out and add a new entry which will be written to CosmosDB and the app is no wiser to the fact. I specified "skepticatgit" Username.
+### VII. Check your CosmosDB has the new entry
+1. Switch to the portal.azure.com and navigate to your CosmosDB instance
+1. Launch Data Explorer (Hint: it's under "Overview" stack of items)
+1. Right click on "scotch-users" collection and launch new MongoDB Shell
+1. Type the following at the prompt
+```
+>db["scotch-users"].find("{age:23}")
