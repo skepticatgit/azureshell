@@ -72,7 +72,12 @@ chmod +x studio-3t-linux-x64.sh
 ```
 mkdir projects
 cd projects
-git clone https://github.com/skepticatgit/mean-google-maps.git
+git clone https://github.com/scotch-io/mean-google-maps.git
+```
+Now let's install from the new repository and start the server
+```
 cd mean-google-maps
 npm install
+node server
 ```
+You should be able to point your browser now to [localhost:3000](http://localhost:3000) and the app will launch and run locally.
