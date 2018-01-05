@@ -165,11 +165,13 @@ node server
 ```
 while you are in "mean-google-maps" folder. 
 Switch to the browser and reload this url: [localhost:3000](http://localhost:3000)
-Now let's test out and add a new entry which will be written to CosmosDB and the app is no wiser to the fact. I specified "skepticatgit" Username.
+Now let's test out and add a new entry which will be written to CosmosDB and the app is no wiser to the fact. I specified "skepticatgit" Username and age of 72.
 ### VII. Check your CosmosDB has the new entry
 1. Switch to the portal.azure.com and navigate to your CosmosDB instance
 1. Launch Data Explorer (Hint: it's under "Overview" stack of items)
 1. Right click on "scotch-users" collection and launch new MongoDB Shell
 1. Type the following at the prompt
 ```
->db["scotch-users"].find("{age:23}")
+>db["scotch-users"].find("{age:72}")
+```
+You should get output in JSON form with all documents where age is 72. If everything worked correctly, you should see your added entries from the app into Cosmos DB.
