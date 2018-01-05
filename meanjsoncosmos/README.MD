@@ -86,7 +86,7 @@ You should be able to point your browser now to [localhost:3000](http://localhos
 If you already have a CosmosDB with Mongo API instance, you can skip to the export-import section.
 
 Log into [Azure portal](https://portal.azure.com) with your credentials and 
-launch the [cloud shell].(https://docs.microsoft.com/en-us/azure/cosmos-db/scripts/create-mongodb-database-account-cli?toc=%2fcli%2fazure%2ftoc.json#launch-azure-cloud-shell)
+launch the [cloud shell](https://docs.microsoft.com/en-us/azure/cosmos-db/scripts/create-mongodb-database-account-cli?toc=%2fcli%2fazure%2ftoc.json#launch-azure-cloud-shell).
 Pull [this script](https://raw.githubusercontent.com/skepticatgit/tutorials/master/meanjsoncosmos/examples/createmongocosmos.sh) and execute it from the shell.
 ```
 wget https://raw.githubusercontent.com/skepticatgit/tutorials/master/meanjsoncosmos/examples/createmongocosmos.sh
