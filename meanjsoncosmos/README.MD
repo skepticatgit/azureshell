@@ -15,7 +15,7 @@ date_published: 2017-12-14
 
 ## Credit
 1. [Chris Sevilleja](https://github.com/sevilayha) for his  [MeanMapAppV2.0](https://github.com/skepticatgit/mean-google-maps) app and tutorial
-1. Kirill Gavrylyuk(https://www.linkedin.com/in/kirillgavrylyuk/) for [Channel9 CosmosDB intro video](https://channel9.msdn.com/Shows/Azure-Friday/Introducing-Azure-Cosmos-DB)
+1. [Kirill Gavrylyuk](https://www.linkedin.com/in/kirillgavrylyuk/) for [Channel9 CosmosDB intro video](https://channel9.msdn.com/Shows/Azure-Friday/Introducing-Azure-Cosmos-DB)
 
 ## Step by step guide
 ### I. Ubuntu client pre-requisites and MEAN.js stack
@@ -85,14 +85,15 @@ You should be able to point your browser now to [localhost:3000](http://localhos
 ### III. Create CosmosDB with Mongo API 
 If you already have a CosmosDB with Mongo API instance, you can skip to the export-import section.
 
-Log into Azure portal with your credentials
-Launch [cloud shell](https://docs.microsoft.com/en-us/azure/cosmos-db/scripts/create-mongodb-database-account-cli?toc=%2fcli%2fazure%2ftoc.json#launch-azure-cloud-shell)
-Pull this script and execute it
+Log into [Azure portal](https://portal.azure.com) with your credentials and 
+launch the [cloud shell].(https://docs.microsoft.com/en-us/azure/cosmos-db/scripts/create-mongodb-database-account-cli?toc=%2fcli%2fazure%2ftoc.json#launch-azure-cloud-shell)
+Pull [this script](https://raw.githubusercontent.com/skepticatgit/tutorials/master/meanjsoncosmos/examples/createmongocosmos.sh) and execute it from the shell.
 ```
 wget https://raw.githubusercontent.com/skepticatgit/tutorials/master/meanjsoncosmos/examples/createmongocosmos.sh
 chmod +x createmongocosmos.sh
 ./createmongocosmos.sh
 ```
+It should take you about 5 min to create the new instance.
 Now let's get the connection string:
 1. Close cloud shell
 1. Browse to the newly created CosmosDB instance
