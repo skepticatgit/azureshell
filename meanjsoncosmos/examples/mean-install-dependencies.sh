@@ -23,6 +23,9 @@ sudo apt-get install -y build-essential
 #install npm
 sudo apt-get install -y npm
 
+#install express and other dependecies
+npm install -g express mongoose morgan body-parser method-override
+
 #install bower and create a sim link for compatability
 npm install -g bower
 sudo ln -s /usr/bin/nodejs /usr/bin/node #alternatively install legacy: apt-get install nodejs-legacy
