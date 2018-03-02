@@ -48,7 +48,7 @@ sudo apt-get install -y build-essential
 sudo apt-get install -y npm
 
 #install express and other dependecies
-npm install -g express mongoose morgan body-parser method-override
+npm install -g express 
 
 #install bower and create a sim link for compatability
 npm install -g bower
