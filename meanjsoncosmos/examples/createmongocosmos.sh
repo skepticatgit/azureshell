@@ -31,6 +31,11 @@ az cosmosdb database create \
 	--db-name $databaseName \
 	--resource-group $resourceGroupName
 
+# Get the connection string for MongoDB apps
+az cosmosdb list-connection-strings \
+        --name $name \
+        --resource-group $resourceGroupName
+
 # Create a collection - uncomment to create
 # az cosmosdb collection create \
 #	--collection-name $collectionName \
